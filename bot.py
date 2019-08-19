@@ -76,6 +76,24 @@ class Bot(object):
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
+    @slack.RTMClient.run_on(event='message')
+    def say_hello(**payload):
+        logger.error("Downs here")
+        data = payload['data']
+        if 'Hello' in data['text']:
+            channel_id = data['channel']
+            thread_ts = data['ts']
+            user = data['user']
+
+            webclient = payload['web_client']
+            webclient.chat_postMessage(
+                channel=channel_id,
+                text="Hi <@{}>!".format(user),
+                thread_ts=thread_ts
+            )
+
+        rtmclient.start()
+
     @slack.RTMClient.run_on(event="team_join")
     def onboarding_message(**payload):
         """Create and send an onboarding welcome message to new users. Save the

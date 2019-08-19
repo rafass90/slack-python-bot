@@ -4,11 +4,12 @@ A routing layer for the onboarding bot tutorial built using
 [Slack's Events API](https://api.slack.com/events-api) in Python
 """
 import bot
+import os
 import logging
 from flask import Flask, request, make_response, render_template
-
+import slack
+rtmclient = slack.RTMClient(token=os.environ.get("token"))
 pyBot = bot.Bot()
-slack = pyBot.client
 
 app = Flask(__name__)
 logger = logging.getLogger('gmppostbot')
