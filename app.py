@@ -37,7 +37,7 @@ def _event_handler(event_type, slack_event):
                                  200,)
 
     elif event_type == "message":
-        pyBot.onboarding_message()
+        print(slack_event)
         return make_response("Ok", 200,)
 
     # ============= Reaction Added Events ============= #
@@ -96,7 +96,7 @@ def thanks():
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
     slack_event = request.get_json()
-    print('listeningggggggggggggggggggggggggggggggggggggg')
+    print('listening')
     # ============= Slack URL Verification ============ #
     # In order to verify the url of our endpoint, Slack will send a challenge
     # token in a request and check for this token in the response our endpoint
