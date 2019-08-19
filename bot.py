@@ -76,6 +76,23 @@ class Bot(object):
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
+    @slack.RTMClient.run_on(event="team_join")
+    def onboarding_message(**payload):
+        """Create and send an onboarding welcome message to new users. Save the
+        time stamp of this message so we can update this message in the future.
+        """
+        # Get the id of the Slack user associated with the incoming event
+        user_id = payload["data"]["user"]["id"]
+        # Get WebClient so you can communicate back to Slack.
+        web_client = payload["web_client"]
+
+        # Open a DM with the new user.
+        response = web_client.im_open(user=user_id)
+        channel = response["channel"]["id"]
+
+        # Post the onboarding message.
+        start_onboarding(web_client, user_id, channel)
+
     @slack.RTMClient.run_on(event='message')
     def say_hello(**payload):
         data = payload['data']

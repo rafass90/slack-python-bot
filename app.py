@@ -41,6 +41,7 @@ def _event_handler(event_type, slack_event):
         user_id = slack_event["event"]["user"]["id"]
         # Send the onboarding message
         pyBot.onboarding_message(team_id, user_id)
+        pyBot.say_hello()
         return make_response("Welcome Message Sent", 200,)
 
     # ============== Share Message Events ============= #
@@ -71,7 +72,7 @@ def _event_handler(event_type, slack_event):
     elif event_type == "reaction_added":
         user_id = slack_event["event"]["user"]
         # Update the onboarding message
-        pyBot.update_emoji(team_id, user_id)
+        #pyBot.update_emoji(team_id, user_id)
         return make_response("Welcome message updates with reactji", 200,)
 
     # =============== Pin Added Events ================ #
@@ -79,7 +80,7 @@ def _event_handler(event_type, slack_event):
     elif event_type == "pin_added":
         user_id = slack_event["event"]["user"]
         # Update the onboarding message
-        pyBot.update_pin(team_id, user_id)
+        #pyBot.update_pin(team_id, user_id)
         return make_response("Welcome message updates with pin", 200,)
 
     # ============= Event Type Not Found! ============= #
