@@ -23,19 +23,19 @@ class Bot(object):
         self.emoji = ":robot_face:"
         # When we instantiate a new bot object, we can access the app
         # credentials we set earlier in our local development environment.
-        self.oauth = {"client_id": "717303183971.730609405143",
-                      "client_secret": "cb2620301843e2d7d9abf7f2f2694375",
+        self.oauth = {"client_id": "",
+                      "client_secret": "",
                       # Scopes provide and limit permissions to what our app
                       # can access. It's important to use the most restricted
                       # scope that your app will need.
                       "scope": "bot"}
-        self.verification = ExaVF5Or8DvoJKnBJE8C3xKj
+        self.verification = ''
 
         # NOTE: Python-slack requires a client connection to generate
         # an OAuth token. We can connect to the client without authenticating
         # by passing an empty string as a token and then reinstantiating the
         # client with a valid OAuth token once we have one.
-        self.client = slack.WebClient(token=os.environ['xoxp-717303183971-730607640823-730948771366-3e0e54570e1029c0738275b772c3c633'])
+        self.client = slack.WebClient(token='')
         # We'll use this dictionary to store the state of each message object.
         # In a production environment you'll likely want to store this more
         # persistently in  a database.
@@ -91,6 +91,6 @@ class Bot(object):
                 thread_ts=thread_ts
             )
 
-    slack_token = "xoxp-717303183971-730607640823-730948771366-3e0e54570e1029c0738275b772c3c633"
+    slack_token = ""
     rtm_client = slack.RTMClient(token=slack_token)
     rtm_client.start()
