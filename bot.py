@@ -4,7 +4,7 @@ Python Slack Bot class for use with the pythOnBoarding app
 """
 import os
 import message
-
+import logging
 from slackclient import SlackClient
 
 # To remember which teams have authorized your app and what tokens are
@@ -13,6 +13,7 @@ from slackclient import SlackClient
 # save this in a more persistent memory store.
 authed_teams = {}
 
+logger = logging.getLogger('gmppostbot.bot')
 
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
@@ -89,6 +90,7 @@ class Bot(object):
         """
         new_dm = self.client.api_call("im.open",
                                       user=user_id)
+        logger.error(new_dm)
         dm_id = new_dm["channel"]["id"]
         return dm_id
 
