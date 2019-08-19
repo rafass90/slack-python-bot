@@ -23,7 +23,7 @@ class Bot(object):
         self.emoji = ":robot_face:"
         # When we instantiate a new bot object, we can access the app
         # credentials we set earlier in our local development environment.
-        logger.error("client_id", os.environ.get("client_id"))
+        logger.info("client_id", os.environ.get("client_id"))
         self.oauth = {"client_id": os.environ.get("client_id"),
                       "client_secret": os.environ.get("client_secret"),
                       # Scopes provide and limit permissions to what our app
