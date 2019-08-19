@@ -15,23 +15,7 @@ app = Flask(__name__)
 logger = logging.getLogger('gmppostbot')
 
 def _event_handler(event_type, slack_event):
-    """
-    A helper function that routes events from Slack to our Bot
-    by event type and subtype.
 
-    Parameters
-    ----------
-    event_type : str
-        type of event received from Slack
-    slack_event : dict
-        JSON response from a Slack reaction event
-
-    Returns
-    ----------
-    obj
-        Response object with 200 - ok or 500 - No Event Handler error
-
-    """
     logger.info('slack_event', slack_event)
     logger.info('event_type', event_type)
     team_id = slack_event["team_id"]
@@ -44,10 +28,6 @@ def _event_handler(event_type, slack_event):
         pyBot.say_hello()
         return make_response("Welcome Message Sent", 200,)
 
-    # ============== Share Message Events ============= #
-    # If the user has shared the onboarding message, the event type will be
-    # message. We'll also need to check that this is a message that has been
-    # shared by looking into the attachments for "is_shared".
     elif event_type == "message" and slack_event["event"].get("attachments"):
         user_id = slack_event["event"].get("user")
         if slack_event["event"]["attachments"][0].get("is_share"):
@@ -56,10 +36,6 @@ def _event_handler(event_type, slack_event):
             return make_response("Welcome message updates with shared message",
                                  200,)
 
-    # ============== Message Events ============= #
-    # If the user sent message, the event type will be
-    # message. We'll also need to check that this is a message that has been
-    # shared by looking into the attachments for "is_shared".
     elif event_type == "message":
         pyBot.onboarding_message()
         return make_response("Ok", 200,)
@@ -89,7 +65,7 @@ def _event_handler(event_type, slack_event):
 
 @app.route("/install", methods=["GET"])
 def pre_install():
-    logger.error("INSTALL")
+    print("INSTALL")
     """This route renders the installation page with 'Add to Slack' button."""
     # Since we've set the client ID and scope on our Bot object, we can change
     # them more easily while we're developing our app.
@@ -102,7 +78,7 @@ def pre_install():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
-    logger.error("THANKS")
+    print("THANKS")
     """
     This route is called by Slack after the user installs our app. It will
     exchange the temporary authorization code Slack sends for an OAuth token
@@ -119,10 +95,6 @@ def thanks():
 
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
-    """
-    This route listens for incoming events from Slack and uses the event
-    handler helper function to route events to our Bot.
-    """
     slack_event = request.get_json()
     print('listeningggggggggggggggggggggggggggggggggggggg')
     # ============= Slack URL Verification ============ #
@@ -155,27 +127,6 @@ def hears():
     # send a quirky but helpful error response
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
-
-
-    @slack.RTMClient.run_on(event='message')
-    def say_hello(**payload):
-        data = payload['data']
-        web_client = payload['web_client']
-        rtm_client = payload['rtm_client']
-        if 'Hello' in data['text']:
-            channel_id = data['channel']
-            thread_ts = data['ts']
-            user = data['user']
-
-            web_client.chat_postMessage(
-                channel=channel_id,
-                text=f"Hi <@{user}>!",
-                thread_ts=thread_ts
-            )
-
-        slack_token = os.environ.get("slack_token")
-        rtm_client = slack.RTMClient(token=slack_token)
-        rtm_client.start()
 
 if __name__ == '__main__':
     app.run(debug=True)
