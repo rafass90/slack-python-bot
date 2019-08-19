@@ -36,7 +36,6 @@ class Bot(object):
         # by passing an empty string as a token and then reinstantiating the
         # client with a valid OAuth token once we have one.
         self.client = SlackClient("")
-        slack.WebClient(token=os.environ['SLACK_API_TOKEN'])
         # We'll use this dictionary to store the state of each message object.
         # In a production environment you'll likely want to store this more
         # persistently in  a database.
