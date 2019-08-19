@@ -18,6 +18,7 @@ logger = logging.getLogger('gmppostbot.bot')
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
     def __init__(self):
+        print('CLASS BOT INITIALIZED')
         super(Bot, self).__init__()
         self.name = "pythonboardingbot"
         self.emoji = ":robot_face:"
