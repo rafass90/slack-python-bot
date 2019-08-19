@@ -95,7 +95,6 @@ class Bot(object):
 
         rtmclient.start()
 
-    @slack.RTMClient.run_on(event="team_join")
     def onboarding_message(**payload):
         print('seraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         """Create and send an onboarding welcome message to new users. Save the
