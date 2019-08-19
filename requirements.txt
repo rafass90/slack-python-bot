@@ -10,3 +10,5 @@ six==1.10.0
 slackclient==1.0.2
 websocket-client==0.37.0
 Werkzeug==0.15.5
+gevent
+gunicorn
