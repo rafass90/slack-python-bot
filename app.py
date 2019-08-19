@@ -32,9 +32,9 @@ def _event_handler(event_type, slack_event):
         Response object with 200 - ok or 500 - No Event Handler error
 
     """
-    logger.error('slack_event', slack_event)
-    logger.error('event_type', event_type)
-
+    logger.info('slack_event', slack_event)
+    logger.info('event_type', event_type)
+    print('VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI QUEEEE')
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
     # When the user first joins a team, the type of event will be team_join
@@ -65,7 +65,7 @@ def _event_handler(event_type, slack_event):
         user_id = slack_event["event"].get("user")
         logger.info('user', user_id)
         
-        pyBot.onboarding_message(slack_event["team_id"], user_id)
+        pyBot.onboarding_message('TM38X5DUK', 'UMGHVJUQ7')
         return make_response("Ok", 200,)
 
     # ============= Reaction Added Events ============= #
