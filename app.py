@@ -126,7 +126,6 @@ def hears():
     handler helper function to route events to our Bot.
     """
     logger.error('event', request.method)
-    logger.error('event', request.)
     slack_event = request.get_json()
     logger.error(slack_event)
     # ============= Slack URL Verification ============ #
