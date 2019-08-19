@@ -90,6 +90,7 @@ def _event_handler(event_type, slack_event):
 
 @app.route("/install", methods=["GET"])
 def pre_install():
+    logger.error("INSTALL")
     """This route renders the installation page with 'Add to Slack' button."""
     # Since we've set the client ID and scope on our Bot object, we can change
     # them more easily while we're developing our app.
@@ -102,6 +103,7 @@ def pre_install():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
+    logger.error("THANKS")
     """
     This route is called by Slack after the user installs our app. It will
     exchange the temporary authorization code Slack sends for an OAuth token
