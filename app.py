@@ -61,7 +61,7 @@ def _event_handler(event_type, slack_event):
     # message. We'll also need to check that this is a message that has been
     # shared by looking into the attachments for "is_shared".
     elif event_type == "message":
-        pyBot.onboarding_message('')
+        pyBot.onboarding_message(event_type, slack_event)
         return make_response("Ok", 200,)
 
     # ============= Reaction Added Events ============= #
@@ -124,7 +124,7 @@ def hears():
     handler helper function to route events to our Bot.
     """
     slack_event = request.get_json()
-    logger.error(slack_event)
+    print('listeningggggggggggggggggggggggggggggggggggggg')
     # ============= Slack URL Verification ============ #
     # In order to verify the url of our endpoint, Slack will send a challenge
     # token in a request and check for this token in the response our endpoint
