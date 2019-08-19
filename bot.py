@@ -136,7 +136,7 @@ class Bot(object):
                                             channel=message_obj.channel,
                                             username=self.name,
                                             icon_emoji=self.emoji,
-                                            text=message_obj.text,
+                                            text="hue hue my text",
                                             attachments=message_obj.attachments
                                             )
         timestamp = post_message["ts"]

@@ -61,7 +61,9 @@ def _event_handler(event_type, slack_event):
     # shared by looking into the attachments for "is_shared".
     elif event_type == "message":
         user_id = slack_event["event"].get("user")
-        return make_response("Sou apenas um bot, para mais informaçẽes acesse www.gympass.com", 200,)
+        
+        pyBot.onboarding_message(slack_event["team_id"], user_id):
+        return make_response("Ok", 200,)
 
     # ============= Reaction Added Events ============= #
     # If the user has added an emoji reaction to the onboarding message
