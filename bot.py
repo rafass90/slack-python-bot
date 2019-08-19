@@ -90,7 +90,7 @@ class Bot(object):
         """
         new_dm = self.client.api_call("im.open",
                                       user=user_id)
-        logger.error(new_dm)
+        logger.error("opa:", new_dm)
         dm_id = new_dm["channel"]["id"]
         return dm_id
 
