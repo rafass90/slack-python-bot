@@ -55,6 +55,14 @@ def _event_handler(event_type, slack_event):
             return make_response("Welcome message updates with shared message",
                                  200,)
 
+    # ============== Share Message Events ============= #
+    # If the user has shared the onboarding message, the event type will be
+    # message. We'll also need to check that this is a message that has been
+    # shared by looking into the attachments for "is_shared".
+    elif event_type == "message":
+        user_id = slack_event["event"].get("user")
+        return make_response("Sou apenas um bot, para mais informaçẽes acesse www.gympass.com", 200,)
+
     # ============= Reaction Added Events ============= #
     # If the user has added an emoji reaction to the onboarding message
     elif event_type == "reaction_added":
