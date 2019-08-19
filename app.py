@@ -32,6 +32,7 @@ def _event_handler(event_type, slack_event):
 
     """
     logger.error(slack_event)
+    logger.error(event_type)
 
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
