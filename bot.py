@@ -36,6 +36,7 @@ class Bot(object):
         # by passing an empty string as a token and then reinstantiating the
         # client with a valid OAuth token once we have one.
         self.client = SlackClient("")
+        slack.WebClient(token=os.environ['SLACK_API_TOKEN'])
         # We'll use this dictionary to store the state of each message object.
         # In a production environment you'll likely want to store this more
         # persistently in  a database.
@@ -67,8 +68,10 @@ class Bot(object):
         # we will save the team ID and bot tokens to the global
         # authed_teams object
         team_id = auth_response["team_id"]
+        logger.info('team_id', team_id)
         authed_teams[team_id] = {"bot_token":
                                  auth_response["bot"]["bot_access_token"]}
+        logger.info('authed_teams', authed_teams)
         # Then we'll reconnect to the Slack Client with the correct team's
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
@@ -76,7 +79,7 @@ class Bot(object):
     def open_dm(self, user_id):
         """
         Open a DM to send a welcome message when a 'team_join' event is
-        recieved from Slack.
+        received from Slack.
 
         Parameters
         ----------
@@ -91,6 +94,7 @@ class Bot(object):
         new_dm = self.client.api_call("im.open",
                                       user=user_id)
         logger.error("opa:", new_dm)
+
         dm_id = new_dm["channel"]["id"]
         return dm_id
 

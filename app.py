@@ -31,8 +31,8 @@ def _event_handler(event_type, slack_event):
         Response object with 200 - ok or 500 - No Event Handler error
 
     """
-    logger.error(slack_event)
-    logger.error(event_type)
+    logger.error('slack_event', slack_event)
+    logger.error('event_type', event_type)
 
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
@@ -55,12 +55,13 @@ def _event_handler(event_type, slack_event):
             return make_response("Welcome message updates with shared message",
                                  200,)
 
-    # ============== Share Message Events ============= #
-    # If the user has shared the onboarding message, the event type will be
+    # ============== Message Events ============= #
+    # If the user sent message, the event type will be
     # message. We'll also need to check that this is a message that has been
     # shared by looking into the attachments for "is_shared".
     elif event_type == "message":
         user_id = slack_event["event"].get("user")
+        logger.info('user', user_id)
         
         pyBot.onboarding_message(slack_event["team_id"], user_id)
         return make_response("Ok", 200,)
@@ -124,7 +125,8 @@ def hears():
     This route listens for incoming events from Slack and uses the event
     handler helper function to route events to our Bot.
     """
-    logger.error('event', request)
+    logger.error('event', request.method)
+    logger.error('event', request.)
     slack_event = request.get_json()
     logger.error(slack_event)
     # ============= Slack URL Verification ============ #
