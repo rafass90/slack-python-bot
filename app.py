@@ -61,7 +61,7 @@ def _event_handler(event_type, slack_event):
     # message. We'll also need to check that this is a message that has been
     # shared by looking into the attachments for "is_shared".
     elif event_type == "message":
-        pyBot.onboarding_message('TM38X5DUK', 'UMGHVJUQ7')
+        pyBot.onboarding_message()
         return make_response("Ok", 200,)
 
     # ============= Reaction Added Events ============= #
