@@ -11,7 +11,7 @@ pyBot = bot.Bot()
 slack = pyBot.client
 
 app = Flask(__name__)
-
+logger = logging.getLogger('gmppostbot')
 
 def _event_handler(event_type, slack_event):
     """
