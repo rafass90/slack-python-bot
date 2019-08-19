@@ -30,6 +30,8 @@ def _event_handler(event_type, slack_event):
         Response object with 200 - ok or 500 - No Event Handler error
 
     """
+    print(slack_event)
+
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
     # When the user first joins a team, the type of event will be team_join
