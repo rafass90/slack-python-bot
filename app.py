@@ -62,7 +62,7 @@ def _event_handler(event_type, slack_event):
     elif event_type == "message":
         user_id = slack_event["event"].get("user")
         
-        pyBot.onboarding_message(slack_event["team_id"], user_id):
+        pyBot.onboarding_message(slack_event["team_id"], user_id)
         return make_response("Ok", 200,)
 
     # ============= Reaction Added Events ============= #
