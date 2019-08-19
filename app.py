@@ -24,8 +24,6 @@ def _event_handler(event_type, slack_event):
     if event_type == "team_join":
         user_id = slack_event["event"]["user"]["id"]
         # Send the onboarding message
-        pyBot.onboarding_message(team_id, user_id)
-        pyBot.say_hello()
         return make_response("Welcome Message Sent", 200,)
 
     elif event_type == "message" and slack_event["event"].get("attachments"):
