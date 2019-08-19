@@ -96,9 +96,11 @@ class Bot(object):
 
     @slack.RTMClient.run_on(event="team_join")
     def onboarding_message(**payload):
+        print('seraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         """Create and send an onboarding welcome message to new users. Save the
         time stamp of this message so we can update this message in the future.
         """
+        print(payload)
         # Get the id of the Slack user associated with the incoming event
         user_id = payload["data"]["user"]["id"]
         # Get WebClient so you can communicate back to Slack.

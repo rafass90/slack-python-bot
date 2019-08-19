@@ -34,7 +34,6 @@ def _event_handler(event_type, slack_event):
     """
     logger.info('slack_event', slack_event)
     logger.info('event_type', event_type)
-    print('VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI QUEEEE')
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
     # When the user first joins a team, the type of event will be team_join
