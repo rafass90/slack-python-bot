@@ -4,6 +4,7 @@ A routing layer for the onboarding bot tutorial built using
 [Slack's Events API](https://api.slack.com/events-api) in Python
 """
 import bot
+import logging
 from flask import Flask, request, make_response, render_template
 
 pyBot = bot.Bot()
@@ -30,7 +31,7 @@ def _event_handler(event_type, slack_event):
         Response object with 200 - ok or 500 - No Event Handler error
 
     """
-    print(slack_event)
+    logger.error(slack_event)
 
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
@@ -111,7 +112,7 @@ def hears():
     handler helper function to route events to our Bot.
     """
     slack_event = request.get_json()
-
+    logger.error(slack_event)
     # ============= Slack URL Verification ============ #
     # In order to verify the url of our endpoint, Slack will send a challenge
     # token in a request and check for this token in the response our endpoint
