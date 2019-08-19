@@ -117,6 +117,7 @@ def hears():
     # token in a request and check for this token in the response our endpoint
     # sends back.
     #       For more info: https://api.slack.com/events/url_verification
+    return "try"
     if "challenge" in slack_event:
         return make_response(slack_event["challenge"], 200, {"content_type":
                                                              "application/json"
