@@ -78,7 +78,7 @@ class Bot(object):
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-    def onboarding_message():
+    def onboarding_message(self):
         print('onboarding_message')
         """Create and send an onboarding welcome message to new users. Save the
         time stamp of this message so we can update this message in the future.
@@ -97,7 +97,7 @@ class Bot(object):
         start_onboarding(web_client, user_id, channel)
 
 
-    def direct_message(slack_event):
+    def direct_message(self, slack_event):
         print('message')
         """Create and send an onboarding welcome message to new users. Save the
         time stamp of this message so we can update this message in the future.
