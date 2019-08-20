@@ -115,7 +115,7 @@ class Bot(object):
         client.chat_postEphemeral(
             channel=channel,
             text="Hello silently from your app! :tada:",
-            user=user_id"
+            user=user_id
         )
 
         # Open a DM with the new user.
