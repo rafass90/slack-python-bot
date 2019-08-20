@@ -98,21 +98,7 @@ def hears():
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
 
-@slack.RTMClient.run_on(event="message")
-def message(**payload):
-    print('I was here')
-    data = payload["data"]
-    web_client = payload["web_client"]
-    channel_id = data.get("channel")
-    user_id = data.get("user")
-    text = data.get("text")
-
-    if text and text.lower() == "start":
-        return start_onboarding(web_client, user_id, channel_id)
-
 if __name__ == '__main__':
     ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
     slack_token = os.environ.get("token")
-    rtm_client = slack.RTMClient(token=slack_token, ssl=ssl_context)
-    rtm_client.start()
     app.run(debug=True)
