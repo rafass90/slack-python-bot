@@ -8,12 +8,11 @@ import os
 import logging
 from flask import Flask, request, make_response, render_template
 import slack
-from slack import RTMClient
-#rtmclient = slack.RTMClient(token=os.environ.get("token"))
 pyBot = bot.Bot()
 
 app = Flask(__name__)
 logger = logging.getLogger('gmppostbot')
+
 
 def _event_handler(event_type, slack_event):
     team_id = slack_event["team_id"]
@@ -33,6 +32,7 @@ def _event_handler(event_type, slack_event):
 
     elif event_type == "message":
         print(slack_event)
+        pyBot.direct_message(slack_event)
         return make_response("Ok", 200,)
 
     # ============= Reaction Added Events ============= #
@@ -57,27 +57,8 @@ def _event_handler(event_type, slack_event):
     # Return a helpful error message
     return make_response(message, 200, {"X-Slack-No-Retry": 1})
 
-@RTMClient.run_on(event="message")
-def say_hello(**payload):
-    data = payload['data']
-    web_client = payload['web_client']
 
-    if 'Hello' in data['text']:
-        channel_id = data['channel']
-        thread_ts = data['ts']
-        user = data['user']
-
-        web_client.chat_postMessage(
-        channel=channel_id,
-        text=f"Hi <@{user}>!",
-        thread_ts=thread_ts
-        )
-
-    slack_token = os.environ["token"]
-    rtm_client = RTMClient(token=slack_token)
-    rtm_client.start()
-
-#@app.route("/install", methods=["GET"])
+@app.route("/install", methods=["GET"])
 def pre_install():
     print("INSTALL")
     """This route renders the installation page with 'Add to Slack' button."""
@@ -90,7 +71,7 @@ def pre_install():
     return render_template("install.html", client_id=client_id, scope=scope)
 
 
-#@app.route("/thanks", methods=["GET", "POST"])
+@app.route("/thanks", methods=["GET", "POST"])
 def thanks():
     print("THANKS")
     """
@@ -107,7 +88,7 @@ def thanks():
     return render_template("thanks.html")
 
 
-#@app.route("/listening", methods=["GET", "POST"])
+@app.route("/listening", methods=["GET", "POST"])
 def hears():
     slack_event = request.get_json()
     print('listening')
@@ -141,6 +122,7 @@ def hears():
     # send a quirky but helpful error response
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

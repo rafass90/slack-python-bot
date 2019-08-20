@@ -44,6 +44,7 @@ class Bot(object):
         self.messages = {}
 
     def auth(self, code):
+        print('auth')
         """
         Authenticate with OAuth and assign correct scopes.
         Save a dictionary of authed team information in memory on the bot
@@ -77,26 +78,8 @@ class Bot(object):
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-    @slack.RTMClient.run_on(event='message')
-    def say_hello(**payload):
-        logger.error("Downs here")
-        data = payload['data']
-        if 'Hello' in data['text']:
-            channel_id = data['channel']
-            thread_ts = data['ts']
-            user = data['user']
-
-            webclient = payload['web_client']
-            webclient.chat_postMessage(
-                channel=channel_id,
-                text="Hi <@{}>!".format(user),
-                thread_ts=thread_ts
-            )
-
-        rtmclient.start()
-
     def onboarding_message():
-        print('sera')
+        print('onboarding_message')
         """Create and send an onboarding welcome message to new users. Save the
         time stamp of this message so we can update this message in the future.
         """
@@ -113,22 +96,18 @@ class Bot(object):
         # Post the onboarding message.
         start_onboarding(web_client, user_id, channel)
 
-    @slack.RTMClient.run_on(event='message')
-    def say_hello(**payload):
-        data = payload['data']
-        web_client = payload['web_client']
-        rtm_client = payload['rtm_client']
-        if 'Hello' in data['text']:
-            channel_id = data['channel']
-            thread_ts = data['ts']
-            user = data['user']
 
-            web_client.chat_postMessage(
-                channel=channel_id,
-                text=f"Hi <@{user}>!",
-                thread_ts=thread_ts
-            )
+    def direct_message(slack_event):
+        print('message')
+        """Create and send an onboarding welcome message to new users. Save the
+        time stamp of this message so we can update this message in the future.
+        """
+        # Get the id of the Slack user associated with the incoming event
+        user_id = slack_event["event"]["user"]
 
-        slack_token = os.environ.get("slack_token")
-        rtm_client = slack.RTMClient(token=slack_token)
-        rtm_client.start()
+        # Open a DM with the new user.
+        #response = web_client.im_open(user=user_id)
+        #channel = response["channel"]["id"]
+
+        # Post the onboarding message.
+        #start_onboarding(web_client, user_id, channel)
