@@ -87,8 +87,6 @@ class Bot(object):
             pass
 
     def direct_message(self, slack_event):
-        print('message')
-        print(slack_event)
         channel = None
         try:
             user_id = slack_event["event"]["user"]
