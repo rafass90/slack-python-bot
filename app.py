@@ -23,6 +23,7 @@ logger = logging.getLogger('gmppostbot')
 
 def _event_handler(event_type, slack_event):
     team_id = slack_event["team_id"]
+    print(event_type)
     # When the user first joins a team, the type of event will be team_join
     if event_type == "team_join":
         user_id = slack_event["event"]["user"]["id"]
