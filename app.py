@@ -8,16 +8,14 @@ import os
 import logging
 from flask import Flask, request, make_response, render_template
 import slack
-rtmclient = slack.RTMClient(token=os.environ.get("token"))
+from slack import RTMClient
+#rtmclient = slack.RTMClient(token=os.environ.get("token"))
 pyBot = bot.Bot()
 
 app = Flask(__name__)
 logger = logging.getLogger('gmppostbot')
 
 def _event_handler(event_type, slack_event):
-
-    logger.info('slack_event', slack_event)
-    logger.info('event_type', event_type)
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
     # When the user first joins a team, the type of event will be team_join
@@ -30,7 +28,6 @@ def _event_handler(event_type, slack_event):
         user_id = slack_event["event"].get("user")
         if slack_event["event"]["attachments"][0].get("is_share"):
             # Update the onboarding message and check off "Share this Message"
-            pyBot.update_share(team_id, user_id)
             return make_response("Welcome message updates with shared message",
                                  200,)
 
@@ -60,8 +57,27 @@ def _event_handler(event_type, slack_event):
     # Return a helpful error message
     return make_response(message, 200, {"X-Slack-No-Retry": 1})
 
+@RTMClient.run_on(event="message")
+def say_hello(**payload):
+    data = payload['data']
+    web_client = payload['web_client']
 
-@app.route("/install", methods=["GET"])
+    if 'Hello' in data['text']:
+        channel_id = data['channel']
+        thread_ts = data['ts']
+        user = data['user']
+
+        web_client.chat_postMessage(
+        channel=channel_id,
+        text=f"Hi <@{user}>!",
+        thread_ts=thread_ts
+        )
+
+    slack_token = os.environ["token"]
+    rtm_client = RTMClient(token=slack_token)
+    rtm_client.start()
+
+#@app.route("/install", methods=["GET"])
 def pre_install():
     print("INSTALL")
     """This route renders the installation page with 'Add to Slack' button."""
@@ -74,7 +90,7 @@ def pre_install():
     return render_template("install.html", client_id=client_id, scope=scope)
 
 
-@app.route("/thanks", methods=["GET", "POST"])
+#@app.route("/thanks", methods=["GET", "POST"])
 def thanks():
     print("THANKS")
     """
@@ -91,7 +107,7 @@ def thanks():
     return render_template("thanks.html")
 
 
-@app.route("/listening", methods=["GET", "POST"])
+#@app.route("/listening", methods=["GET", "POST"])
 def hears():
     slack_event = request.get_json()
     print('listening')

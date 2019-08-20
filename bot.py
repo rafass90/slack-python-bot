@@ -96,7 +96,7 @@ class Bot(object):
         rtmclient.start()
 
     def onboarding_message():
-        print('seraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        print('sera')
         """Create and send an onboarding welcome message to new users. Save the
         time stamp of this message so we can update this message in the future.
         """
