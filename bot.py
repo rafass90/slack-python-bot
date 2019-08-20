@@ -3,7 +3,6 @@
 Python Slack Bot class for use with the pythOnBoarding app
 """
 import os
-import message
 import logging
 import slack
 
@@ -41,7 +40,6 @@ class Bot(object):
         # We'll use this dictionary to store the state of each message object.
         # In a production environment you'll likely want to store this more
         # persistently in  a database.
-        self.messages = {}
 
     def auth(self, code):
         print('auth')
