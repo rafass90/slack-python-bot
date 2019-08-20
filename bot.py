@@ -76,61 +76,39 @@ class Bot(object):
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-    def onboarding_message(self):
+    def onboarding_message(self, slack_event):
         print('onboarding_message')
-        """Create and send an onboarding welcome message to new users. Save the
-        time stamp of this message so we can update this message in the future.
-        """
-        print(payload)
-        # Get the id of the Slack user associated with the incoming event
-        user_id = payload["data"]["user"]["id"]
-        # Get WebClient so you can communicate back to Slack.
-        web_client = payload["web_client"]
 
-        # Open a DM with the new user.
-        response = web_client.im_open(user=user_id)
-        channel = response["channel"]["id"]
-
-        # Post the onboarding message.
-        start_onboarding(web_client, user_id, channel)
-
+        try:
+            user_id = slack_event["event"]["user"]
+            channel = slack_event["event"]["channel"]
+            start_onboarding(web_client, user_id, channel)
+        except:
+            pass
 
     def direct_message(self, slack_event):
         print('message')
-        """Create and send an onboarding welcome message to new users. Save the
-        time stamp of this message so we can update this message in the future.
-        """
-        # Get the id of the Slack user associated with the incoming event
         print(slack_event)
         channel = None
         try:
             user_id = slack_event["event"]["user"]
             channel = slack_event["event"]["channel"]
+            web_client = slack.WebClient(os.environ.get('token'))
+            web_client.chat_postMessage(
+                channel=channel,
+                text="Haaaaaaaaaaaa! :tada:"
+            )
         except:
             pass
 
-        web_client = slack.WebClient(os.environ.get('token'))
-        web_client.chat_postMessage(
+
+    def start_onboarding(self, web_client: slack.WebClient, user_id: str, channel: str):
+        print('onboarding!!!')
+        # Get the onboarding message payload
+        message = "mensagem teste"
+
+        # Post the onboarding message in Slack
+        response = web_client.chat_postMessage(
             channel=channel,
-            text="Haaaaaaaaaaaa! :tada:"
+            text="It's a onboarding message"
         )
-
-        # Open a DM with the new user.
-        #response = web_client.im_open(user=user_id)
-        start_onboarding(web_client, user_id, channel)
-
-def start_onboarding(web_client: slack.WebClient, user_id: str, channel: str):
-    print('onboarding!!!')
-    # Get the onboarding message payload
-    message = "mensagem teste"
-
-    # Post the onboarding message in Slack
-    response = web_client.chat_postMessage(
-        channel=channel,
-        text="It's a onboarding message"
-    )
-
-    # Store the message sent in onboarding_tutorials_sent
-    if channel not in onboarding_tutorials_sent:
-        onboarding_tutorials_sent[channel] = {}
-    onboarding_tutorials_sent[channel][user_id] = onboarding_tutorial

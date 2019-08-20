@@ -34,10 +34,6 @@ def _event_handler(event_type, slack_event):
         pyBot.direct_message(slack_event)
         return make_response("Ok", 200,)
 
-    # ============= Event Type Not Found! ============= #
-    # If the event_type does not have a handler
-    message = "You have not added an event handler for the %s" % event_type
-    # Return a helpful error message
     return make_response(message, 200, {"X-Slack-No-Retry": 1})
 
 
@@ -81,7 +77,7 @@ def hears():
         return make_response(slack_event["challenge"], 200, {"content_type":
                                                              "application/json"
                                                              })
-    if pyBot.verification != slack_event.get("token"):
+    if pyBot.verification != slack_event.get("challenge"):
         message = "Invalid Slack verification token: %s \npyBot has: \
                    %s\n\n" % (slack_event["token"], pyBot.verification)
         # By adding "X-Slack-No-Retry" : 1 to our response headers, we turn off
@@ -100,9 +96,6 @@ def hears():
 
 @slack.RTMClient.run_on(event="reaction_added")
 def update_emoji(**payload):
-    """Update onboarding welcome message after receiving a "reaction_added"
-    event from Slack. Update timestamp for welcome message as well.
-    """
     data = payload["data"]
     web_client = payload["web_client"]
     channel_id = data["item"]["channel"]
@@ -126,9 +119,6 @@ def update_emoji(**payload):
 @slack.RTMClient.run_on(event="message")
 def message(**payload):
     print('I was here')
-    """Display the onboarding welcome message after receiving a message
-    that contains "start".
-    """
     data = payload["data"]
     web_client = payload["web_client"]
     channel_id = data.get("channel")
