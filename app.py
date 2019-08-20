@@ -3,6 +3,13 @@
 A routing layer for the onboarding bot tutorial built using
 [Slack's Events API](https://api.slack.com/events-api) in Python
 """
+import os
+import logging
+import slack
+import ssl as ssl_lib
+import certifi
+
+
 import bot
 import os
 import logging
@@ -16,40 +23,16 @@ logger = logging.getLogger('gmppostbot')
 
 def _event_handler(event_type, slack_event):
     team_id = slack_event["team_id"]
-    # ================ Team Join Events =============== #
     # When the user first joins a team, the type of event will be team_join
     if event_type == "team_join":
         user_id = slack_event["event"]["user"]["id"]
         # Send the onboarding message
         return make_response("Welcome Message Sent", 200,)
 
-    elif event_type == "message" and slack_event["event"].get("attachments"):
-        user_id = slack_event["event"].get("user")
-        if slack_event["event"]["attachments"][0].get("is_share"):
-            # Update the onboarding message and check off "Share this Message"
-            return make_response("Welcome message updates with shared message",
-                                 200,)
-
     elif event_type == "message":
         print(slack_event)
         pyBot.direct_message(slack_event)
         return make_response("Ok", 200,)
-
-    # ============= Reaction Added Events ============= #
-    # If the user has added an emoji reaction to the onboarding message
-    elif event_type == "reaction_added":
-        user_id = slack_event["event"]["user"]
-        # Update the onboarding message
-        #pyBot.update_emoji(team_id, user_id)
-        return make_response("Welcome message updates with reactji", 200,)
-
-    # =============== Pin Added Events ================ #
-    # If the user has added an emoji reaction to the onboarding message
-    elif event_type == "pin_added":
-        user_id = slack_event["event"]["user"]
-        # Update the onboarding message
-        #pyBot.update_pin(team_id, user_id)
-        return make_response("Welcome message updates with pin", 200,)
 
     # ============= Event Type Not Found! ============= #
     # If the event_type does not have a handler
@@ -93,19 +76,11 @@ def hears():
     slack_event = request.get_json()
     print('listening')
     print(slack_event)
-    # ============= Slack URL Verification ============ #
-    # In order to verify the url of our endpoint, Slack will send a challenge
-    # token in a request and check for this token in the response our endpoint
-    # sends back.
-    #       For more info: https://api.slack.com/events/url_verification
+
     if "challenge" in slack_event:
         return make_response(slack_event["challenge"], 200, {"content_type":
                                                              "application/json"
                                                              })
-
-    # ============ Slack Token Verification =========== #
-    # We can verify the request is coming from Slack by checking that the
-    # verification token in the request matches our app's settings
     if pyBot.verification != slack_event.get("token"):
         message = "Invalid Slack verification token: %s \npyBot has: \
                    %s\n\n" % (slack_event["token"], pyBot.verification)
@@ -113,17 +88,58 @@ def hears():
         # Slack's automatic retries during development.
         make_response(message, 403, {"X-Slack-No-Retry": 1})
 
-    # ====== Process Incoming Events from Slack ======= #
-    # If the incoming request is an Event we've subscribed to
     if "event" in slack_event:
         event_type = slack_event["event"]["type"]
         # Then handle the event by event_type and have your bot respond
         return _event_handler(event_type, slack_event)
+
     # If our bot hears things that are not events we've subscribed to,
     # send a quirky but helpful error response
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
 
+@slack.RTMClient.run_on(event="reaction_added")
+def update_emoji(**payload):
+    """Update onboarding welcome message after receiving a "reaction_added"
+    event from Slack. Update timestamp for welcome message as well.
+    """
+    data = payload["data"]
+    web_client = payload["web_client"]
+    channel_id = data["item"]["channel"]
+    user_id = data["user"]
+
+    # Get the original tutorial sent.
+    onboarding_tutorial = onboarding_tutorials_sent[channel_id][user_id]
+
+    # Mark the reaction task as completed.
+    onboarding_tutorial.reaction_task_completed = True
+
+    # Get the new message payload
+    message = onboarding_tutorial.get_message_payload()
+
+    # Post the updated message in Slack
+    updated_message = web_client.chat_update(**message)
+
+    # Update the timestamp saved on the onboarding tutorial object
+    onboarding_tutorial.timestamp = updated_message["ts"]
+
+@slack.RTMClient.run_on(event="message")
+def message(**payload):
+    """Display the onboarding welcome message after receiving a message
+    that contains "start".
+    """
+    data = payload["data"]
+    web_client = payload["web_client"]
+    channel_id = data.get("channel")
+    user_id = data.get("user")
+    text = data.get("text")
+
+    if text and text.lower() == "start":
+        return start_onboarding(web_client, user_id, channel_id)
 
 if __name__ == '__main__':
+    ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
+    slack_token = os.environ.get("token")
+    rtm_client = slack.RTMClient(token=slack_token, ssl=ssl_context)
+    rtm_client.start()
     app.run(debug=True)
