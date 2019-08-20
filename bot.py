@@ -112,27 +112,20 @@ class Bot(object):
             text="Haaaaaaaaaaaa! :tada:"
         )
 
-        client.chat_postEphemeral(
-            channel=channel,
-            text="Hello silently from your app! :tada:",
-            user=user_id
-        )
-
         # Open a DM with the new user.
         #response = web_client.im_open(user=user_id)
         start_onboarding(web_client, user_id, channel)
-        #channel = response["channel"]["id"]
-
-        # Post the onboarding message.
-        #start_onboarding(web_client, user_id, channel)
 
 def start_onboarding(web_client: slack.WebClient, user_id: str, channel: str):
+    print('onboarding!!!')
     # Get the onboarding message payload
     message = "mensagem teste"
 
     # Post the onboarding message in Slack
-    response = web_client.chat_postMessage(**message)
-    onboarding_tutorial.timestamp = response["ts"]
+    response = web_client.chat_postMessage(
+        channel=channel,
+        text="It's a onboarding message"
+    )
 
     # Store the message sent in onboarding_tutorials_sent
     if channel not in onboarding_tutorials_sent:
