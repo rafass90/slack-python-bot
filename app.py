@@ -125,6 +125,7 @@ def update_emoji(**payload):
 
 @slack.RTMClient.run_on(event="message")
 def message(**payload):
+    print('I was here')
     """Display the onboarding welcome message after receiving a message
     that contains "start".
     """
