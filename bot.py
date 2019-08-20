@@ -104,7 +104,19 @@ class Bot(object):
         user_id = slack_event["event"]["user"]
         channel = slack_event["event"]["channel"]
         print(user_id)
+        print(channel)
 
+        web_client = slack.WebClient(os.environ.get('token'))
+        web_client.chat_postMessage(
+            channel=channel,
+            text="Hello from your app! :tada:"
+        )
+
+        client.chat_postEphemeral(
+            channel=channel,
+            text="Hello silently from your app! :tada:",
+            user=user_id"
+        )
 
         # Open a DM with the new user.
         #response = web_client.im_open(user=user_id)
