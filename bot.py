@@ -101,10 +101,13 @@ class Bot(object):
         time stamp of this message so we can update this message in the future.
         """
         # Get the id of the Slack user associated with the incoming event
-        user_id = slack_event["event"]["user"]
-        channel = slack_event["event"]["channel"]
-        print(user_id)
-        print(channel)
+        print(slack_event)
+        channel = None
+        try:
+            user_id = slack_event["event"]["user"]
+            channel = slack_event["event"]["channel"]
+        except:
+            pass
 
         web_client = slack.WebClient(os.environ.get('token'))
         web_client.chat_postMessage(
