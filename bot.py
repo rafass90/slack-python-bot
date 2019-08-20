@@ -109,7 +109,7 @@ class Bot(object):
         web_client = slack.WebClient(os.environ.get('token'))
         web_client.chat_postMessage(
             channel=channel,
-            text="Hello from your app! :tada:"
+            text="Haaaaaaaaaaaa! :tada:"
         )
 
         client.chat_postEphemeral(
