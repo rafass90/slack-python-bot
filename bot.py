@@ -82,8 +82,9 @@ class Bot(object):
         try:
             user_id = slack_event["event"]["user"]
             channel = slack_event["event"]["channel"]
-            start_onboarding(web_client, user_id, channel)
+            start_onboarding(slack.WebClient(os.environ.get('token')), user_id, channel)
         except:
+            print('exception OM')
             pass
 
     def direct_message(self, slack_event):
@@ -97,13 +98,12 @@ class Bot(object):
                 text="Haaaaaaaaaaaa! :tada:"
             )
         except:
+            print('exception DM')
             pass
 
 
-    def start_onboarding(self, web_client: slack.WebClient, user_id: str, channel: str):
+    def start_onboarding(self, web_client, user_id, channel):
         print('onboarding!!!')
-        # Get the onboarding message payload
-        message = "mensagem teste"
 
         # Post the onboarding message in Slack
         response = web_client.chat_postMessage(
