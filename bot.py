@@ -102,10 +102,27 @@ class Bot(object):
         """
         # Get the id of the Slack user associated with the incoming event
         user_id = slack_event["event"]["user"]
+        channel = slack_event["event"]["channel"]
+        print(user_id)
+
 
         # Open a DM with the new user.
         #response = web_client.im_open(user=user_id)
+        start_onboarding(web_client, user_id, channel)
         #channel = response["channel"]["id"]
 
         # Post the onboarding message.
         #start_onboarding(web_client, user_id, channel)
+
+def start_onboarding(web_client: slack.WebClient, user_id: str, channel: str):
+    # Get the onboarding message payload
+    message = "mensagem teste"
+
+    # Post the onboarding message in Slack
+    response = web_client.chat_postMessage(**message)
+    onboarding_tutorial.timestamp = response["ts"]
+
+    # Store the message sent in onboarding_tutorials_sent
+    if channel not in onboarding_tutorials_sent:
+        onboarding_tutorials_sent[channel] = {}
+    onboarding_tutorials_sent[channel][user_id] = onboarding_tutorial
