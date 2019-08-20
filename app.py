@@ -30,8 +30,11 @@ def _event_handler(event_type, slack_event):
         return make_response("Welcome Message Sent", 200,)
 
     elif event_type == "message":
-        print(slack_event)
         pyBot.direct_message(slack_event)
+        return make_response("Ok", 200,)
+
+    elif event_type == "member_joined_channel":
+        pyBot.onboarding_message(slack_event)
         return make_response("Ok", 200,)
 
     return make_response(message, 200, {"X-Slack-No-Retry": 1})
@@ -93,28 +96,6 @@ def hears():
     # send a quirky but helpful error response
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
-
-@slack.RTMClient.run_on(event="reaction_added")
-def update_emoji(**payload):
-    data = payload["data"]
-    web_client = payload["web_client"]
-    channel_id = data["item"]["channel"]
-    user_id = data["user"]
-
-    # Get the original tutorial sent.
-    onboarding_tutorial = onboarding_tutorials_sent[channel_id][user_id]
-
-    # Mark the reaction task as completed.
-    onboarding_tutorial.reaction_task_completed = True
-
-    # Get the new message payload
-    message = onboarding_tutorial.get_message_payload()
-
-    # Post the updated message in Slack
-    updated_message = web_client.chat_update(**message)
-
-    # Update the timestamp saved on the onboarding tutorial object
-    onboarding_tutorial.timestamp = updated_message["ts"]
 
 @slack.RTMClient.run_on(event="message")
 def message(**payload):
