@@ -38,9 +38,6 @@ class Bot(object):
         # client with a valid OAuth token once we have one.
         self.client = slack.WebClient(token=os.environ.get("token"))
 
-        user = self.client.api_call(method='users.lookupByEmail', email='rafael9s9@hotmail.com')
-        print(user)
-
         # We'll use this dictionary to store the state of each message object.
         # In a production environment you'll likely want to store this more
         # persistently in  a database.
@@ -92,6 +89,9 @@ class Bot(object):
             pass
 
     def direct_message(self, slack_event):
+        client = slack.WebClient(os.environ.get('token'))
+        user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
+        print(user)
         channel = None
         try:
             user_id = slack_event["event"]["user"]
