@@ -77,9 +77,6 @@ def hears():
     print('listening')
     print(slack_event)
 
-    user = sc.api_call(method='users.lookupByEmail', email='rafael9s9@hotmail.com')
-    print(user)
-
     if "challenge" in slack_event:
         return make_response(slack_event["challenge"], 200, {"content_type":
                                                              "application/json"
