@@ -90,10 +90,10 @@ class Bot(object):
 
     def direct_message(self, slack_event):
         client = slack.WebClient(os.environ.get('token'))
-        user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
-        print(user)
+        #user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
+        #print(user)
         channel = None
-        
+
         try:
             user_id = slack_event["event"]["user"]
             channel = slack_event["event"]["channel"]
