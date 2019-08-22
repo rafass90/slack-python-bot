@@ -97,7 +97,6 @@ class Bot(object):
         
         #print(user)
         channel = None
-
         try:
             client.im_history(channel='DMC1A5FDX')
             #client.chat_postMessage(channel='DMLJ5150E', text='blablacar do bot')
