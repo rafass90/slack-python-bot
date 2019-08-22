@@ -91,6 +91,7 @@ class Bot(object):
     def direct_message(self, slack_event):
         client = slack.WebClient(os.environ.get('token'))
 
+        user_id = slack_event["event"]["user"]
         user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
         print(user['user']['id'])
         openM = client.im_open(user=user['user']['id'])
@@ -98,6 +99,7 @@ class Bot(object):
         #print(user)
         try:
             client.im_history(channel='DMC1A5FDX')
+            client.chat_postEphemeral(channel='DMC1G9XQR', user=user_id)
             #client.chat_postMessage(channel='DMLJ5150E', text='blablacar do bot')
             #client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
         except e:
