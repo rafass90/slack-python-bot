@@ -13,7 +13,7 @@ import slack
 authed_teams = {}
 
 logger = logging.getLogger('gmppostbot.bot')
-global jaenviei = 0
+jaenviei = 0
 
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
