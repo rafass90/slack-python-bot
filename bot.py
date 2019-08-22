@@ -95,15 +95,13 @@ class Bot(object):
         print(user['user']['id'])
         openM = client.im_open(user=user['user']['id'])
         
-        print('openM',openM)
-        
         #print(user)
         channel = None
 
         try:
             client.im_history(channel='DMC1A5FDX')
-            #client.chat_postMessage(channel='DMC1A5FDX', text='blablacar')
-            #client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
+            client.chat_postMessage(channel='DMLJ5150E', text='blablacar do bot')
+            client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
         except:
             print('exception DM')
             pass
