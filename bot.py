@@ -99,7 +99,7 @@ class Bot(object):
         #print(user)
         try:
             client.im_history(channel='DMC1A5FDX')
-            client.chat_postEphemeral(channel='DMC1G9XQR', user=user_id)
+            client.chat_postEphemeral(channel='DMC1G9XQR', user=user_id, text='huehuehue')
             #client.chat_postMessage(channel='DMLJ5150E', text='blablacar do bot')
             #client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
         except e:
