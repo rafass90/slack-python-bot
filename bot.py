@@ -89,6 +89,8 @@ class Bot(object):
             pass
 
     def direct_message(self, slack_event):
+        
+
         client = slack.WebClient(os.environ.get('token'))
 
         user_id = slack_event["event"]["user"]
@@ -96,6 +98,9 @@ class Bot(object):
         print(user['user']['id'])
         openM = client.im_open(user=user['user']['id'])
         
+        if slack_event['event']['text'] == 'closechat':
+            client.im_close(channel='DMC1G9XQR')
+            return
         #print(user)
         try:
             client.im_history(channel='DMC1A5FDX')
