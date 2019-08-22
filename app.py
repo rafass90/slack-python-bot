@@ -38,7 +38,7 @@ def _event_handler(event_type, slack_event):
         pyBot.onboarding_message(slack_event)
         return make_response("Ok", 200,)
 
-    return make_response(message, 200, {"X-Slack-No-Retry": 1})
+    return make_response(event_type, 200, {"X-Slack-No-Retry": 1})
 
 
 @app.route("/install", methods=["GET"])
