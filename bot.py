@@ -93,6 +93,7 @@ class Bot(object):
         user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
         print(user)
         channel = None
+        
         try:
             user_id = slack_event["event"]["user"]
             channel = slack_event["event"]["channel"]
