@@ -89,6 +89,7 @@ class Bot(object):
             pass
 
     def direct_message(self, slack_event):
+        return
         client = slack.WebClient(os.environ.get('token'))
 
         user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
@@ -101,9 +102,9 @@ class Bot(object):
         channel = None
 
         try:
-            client.im_history(channel='DMC1A5FDX')
-            client.chat_postMessage(channel='DMC1A5FDX', text='blablacar')
-            client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
+            #client.im_history(channel='DMC1A5FDX')
+            #client.chat_postMessage(channel='DMC1A5FDX', text='blablacar')
+            #client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
         except:
             print('exception DM')
             pass
