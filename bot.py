@@ -91,7 +91,7 @@ class Bot(object):
     def direct_message(self, slack_event):
         client = slack.WebClient(os.environ.get('token'))
 
-        openM = client.im_open('rafael9s9')
+        openM = client.im_open(user='rafael9s9')
         print(openM)
         #user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
         #print(user)
