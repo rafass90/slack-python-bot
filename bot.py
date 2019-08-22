@@ -13,6 +13,7 @@ import slack
 authed_teams = {}
 
 logger = logging.getLogger('gmppostbot.bot')
+global jaenviei = 0
 
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
@@ -97,10 +98,13 @@ class Bot(object):
         
         #print(user)
         channel = None
+        if jaenviei >= 1:
+            return
         try:
             client.im_history(channel='DMC1A5FDX')
             #client.chat_postMessage(channel='DMLJ5150E', text='blablacar do bot')
-            #client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
+            client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
+            jaenviei = 1
         except e:
             print('exception DM', e)
             pass
