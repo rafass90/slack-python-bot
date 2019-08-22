@@ -102,8 +102,8 @@ class Bot(object):
             client.im_history(channel='DMC1A5FDX')
             client.chat_postMessage(channel='DMLJ5150E', text='blablacar do bot')
             client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
-        except:
-            print('exception DM')
+        except e:
+            print('exception DM', e)
             pass
 
 
