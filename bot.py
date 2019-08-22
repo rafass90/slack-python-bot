@@ -95,19 +95,14 @@ class Bot(object):
         print(user['user']['id'])
         openM = client.im_open(user=user['user']['id'])
         
-        print(openM)
+        print('openM',openM)
         
         #print(user)
         channel = None
 
         try:
-            user_id = slack_event["event"]["user"]
-            channel = slack_event["event"]["channel"]
-            web_client = slack.WebClient(os.environ.get('token'))
-            web_client.chat_postMessage(
-                channel=channel,
-                text="Haaaaaaaaaaaa! :tada:"
-            )
+            client.im_history(channel='DMC1A5FDX')
+            client.chat_postMessage(channel='DMC1A5FDX', text='blablacar')
         except:
             print('exception DM')
             pass
