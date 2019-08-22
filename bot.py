@@ -100,13 +100,13 @@ class Bot(object):
         #print(user)
         channel = None
 
-        #try:
-            #client.im_history(channel='DMC1A5FDX')
-            #client.chat_postMessage(channel='DMC1A5FDX', text='blablacar')
+        try:
+            client.im_history(channel='DMC1A5FDX')
+            client.chat_postMessage(channel='DMC1A5FDX', text='blablacar')
             #client.chat_postMessage(channel='DMC1G9XQR', text='Mensagem do bot')
-        #except:
-        #    print('exception DM')
-        #    pass
+        except:
+            print('exception DM')
+            pass
 
 
     def start_onboarding(self, web_client, user_id, channel):
