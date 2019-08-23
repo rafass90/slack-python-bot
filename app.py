@@ -35,7 +35,6 @@ def _event_handler(event_type, slack_event):
         pyBot.direct_message(slack_event)
         return make_response("Ok", 200,)
 
-
     elif event_type == "member_joined_channel":
         pyBot.onboarding_message(slack_event)
         return make_response("Ok", 200,)
