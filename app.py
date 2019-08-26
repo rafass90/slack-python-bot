@@ -15,6 +15,7 @@ import os
 import logging
 from flask import Flask, request, make_response, render_template
 import slack
+pyBot = bot.Bot()
 
 app = Flask(__name__)
 logger = logging.getLogger('gmppostbot')

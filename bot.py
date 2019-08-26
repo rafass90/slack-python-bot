@@ -106,6 +106,3 @@ class Bot(object):
             channel=channel,
             text="It's a onboarding message"
         )
-
-
-
