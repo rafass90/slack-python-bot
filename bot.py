@@ -100,7 +100,7 @@ class Bot(object):
 
     def start_onboarding(self, slack_event):
         print('onboarding!!!', slack_event)
-        print(slack_event['team_id'])
+        print(slack_event['event']['team_id'])
         # Post the onboarding message in Slack
         response = self.client.chat_postMessage(
             #as_user=True,
