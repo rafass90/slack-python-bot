@@ -79,7 +79,7 @@ def hears():
     print(slack_event)
 
     try:
-        pyBot.onboarding_message(slack_event)
+        self.onboarding_message(slack_event)
     except:
         pass
 
@@ -103,6 +103,28 @@ def hears():
     # send a quirky but helpful error response
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
+
+    def onboarding_message(self, slack_event):
+        print('onboarding_message')
+
+        try:
+            cli = slack.WebClient(os.environ.get('token'))
+            channel = slack_event["event"]["team_id"]
+            print('team_id', channel)
+            self.send_all(cli, channel)
+        except:
+            print('exception SEND ALL')
+            pass
+
+    def send_all(self, web_client, channel):
+        print('onboarding!!!')
+
+        # Post the onboarding message in Slack
+        response = web_client.chat_postMessage(
+            as_user=True,
+            channel=channel,
+            text="It's a onboarding message"
+        )
 
 if __name__ == '__main__':
     ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
