@@ -99,6 +99,8 @@ class Bot(object):
             pass
 
     def start_onboarding(self, slack_event):
+        print('token app', os.environ.get("token"))
+        print('token message', slack_event['token'])
         print('onboarding!!!', slack_event)
         print(slack_event)
         return ''
