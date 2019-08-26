@@ -89,8 +89,6 @@ class Bot(object):
             pass
 
     def direct_message(self, slack_event):
-        
-
         client = slack.WebClient(os.environ.get('token'))
 
         user_id = slack_event["event"]["user"]
