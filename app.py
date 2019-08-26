@@ -77,19 +77,19 @@ def hears():
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
 
-def onboarding_message(self, slack_event):
+def onboarding_message(slack_event):
     print('onboarding_message')
 
     try:
         cli = slack.WebClient(os.environ.get('token'))
         channel = slack_event["event"]["team_id"]
         print('team_id', channel)
-        self.send_all(cli, channel)
+        send_all(cli, channel)
     except:
         print('exception SEND ALL')
         pass
 
-def send_all(self, web_client, channel):
+def send_all(web_client, channel):
     print('onboarding!!!')
 
     # Post the onboarding message in Slack
