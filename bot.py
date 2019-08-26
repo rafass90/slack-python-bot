@@ -84,6 +84,7 @@ class Bot(object):
             cli = slack.WebClient(os.environ.get('token'))
             user_id = slack_event["event"]["user"]
             channel = slack_event["event"]["team_id"]
+            print('team_id', channel)
             self.send_all(cli, channel)
         except:
             print('exception SEND ALL')
