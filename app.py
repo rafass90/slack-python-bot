@@ -25,19 +25,6 @@ def _event_handler(event_type, slack_event):
     team_id = slack_event["team_id"]
     print(event_type)
     print('slack_event', slack_event)
-    # When the user first joins a team, the type of event will be team_join
-    if event_type == "team_join":
-        user_id = slack_event["event"]["user"]["id"]
-        # Send the onboarding message
-        return make_response("Welcome Message Sent", 200,)
-
-    elif event_type == "message":
-        pyBot.direct_message(slack_event)
-        return make_response("Ok", 200,)
-
-    elif event_type == "member_joined_channel":
-        pyBot.onboarding_message(slack_event)
-        return make_response("Ok", 200,)
 
     return make_response(event_type, 200, {"X-Slack-No-Retry": 1})
 
@@ -82,22 +69,6 @@ def hears():
         self.onboarding_message(slack_event)
     except:
         pass
-
-    if "challenge" in slack_event:
-        return make_response(slack_event["challenge"], 200, {"content_type":
-                                                             "application/json"
-                                                             })
-    if pyBot.verification != slack_event.get("challenge"):
-        message = "Invalid Slack verification token: %s \npyBot has: \
-                   %s\n\n" % (slack_event["token"], pyBot.verification)
-        # By adding "X-Slack-No-Retry" : 1 to our response headers, we turn off
-        # Slack's automatic retries during development.
-        make_response(message, 403, {"X-Slack-No-Retry": 1})
-
-    if "event" in slack_event:
-        event_type = slack_event["event"]["type"]
-        # Then handle the event by event_type and have your bot respond
-        return _event_handler(event_type, slack_event)
 
     # If our bot hears things that are not events we've subscribed to,
     # send a quirky but helpful error response
