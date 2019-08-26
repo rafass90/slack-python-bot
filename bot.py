@@ -98,11 +98,12 @@ class Bot(object):
         except:
             pass
 
-    def start_onboarding(self, web_client, user_id, channel):
+    def start_onboarding(self, user_id, channel):
         print('onboarding!!!')
 
         # Post the onboarding message in Slack
-        response = web_client.chat_postMessage(
+        response = self.client.chat_postMessage(
+            as_user=True,
             channel=channel,
             text="It's a onboarding message"
         )
