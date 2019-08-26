@@ -100,28 +100,11 @@ class Bot(object):
 
     def start_onboarding(self, slack_event):
         print('token app', os.environ.get("token"))
-        print('token message', slack_event['token'])
-        try:
-            print('list users111:', self.client.users_list())
-        except:
-            pass
-
-        try:
-            print('list users222:', self.client.users_list(token=slack_event['token']))
-        except:
-            pass
-            
-        try:
-            print('list users333:', self.client.users_list(token=os.environ.get("token")))
-        except:
-            pass
-            
-
         print(slack_event)
-        return ''
         # Post the onboarding message in Slack
         response = self.client.chat_postMessage(
             #as_user=True,
             channel=slack_event['event']['channel'],
+            
             text="It's a onboarding message"
         )
