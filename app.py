@@ -31,7 +31,6 @@ def _event_handler(event_type, slack_event):
     except:
         pass
 
-
     return make_response(event_type, 200, {"X-Slack-No-Retry": 1})
 
 
@@ -71,23 +70,8 @@ def hears():
     print('listening')
     print(slack_event)
 
+    onboarding_message(slack_event)
     
-    if "challenge" in slack_event:
-        return make_response(slack_event["challenge"], 200, {"content_type":
-                                                             "application/json"
-                                                             })
-    if pyBot.verification != slack_event.get("challenge"):
-        message = "Invalid Slack verification token: %s \npyBot has: \
-                   %s\n\n" % (slack_event["token"], pyBot.verification)
-        # By adding "X-Slack-No-Retry" : 1 to our response headers, we turn off
-        # Slack's automatic retries during development.
-        make_response(message, 403, {"X-Slack-No-Retry": 1})
-
-    if "event" in slack_event:
-        event_type = slack_event["event"]["type"]
-        # Then handle the event by event_type and have your bot respond
-        return _event_handler(event_type, slack_event)
-
     # If our bot hears things that are not events we've subscribed to,
     # send a quirky but helpful error response
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
