@@ -70,7 +70,7 @@ def hears():
     print('listening')
     print(slack_event)
 
-    onboarding_message(slack_event)
+    self.onboarding_message(slack_event)
     
     # If our bot hears things that are not events we've subscribed to,
     # send a quirky but helpful error response
