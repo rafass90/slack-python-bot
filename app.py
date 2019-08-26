@@ -78,6 +78,11 @@ def hears():
     print('listening')
     print(slack_event)
 
+    try:
+        pyBot.onboarding_message(slack_event)
+    except:
+        pass
+
     if "challenge" in slack_event:
         return make_response(slack_event["challenge"], 200, {"content_type":
                                                              "application/json"

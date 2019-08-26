@@ -82,8 +82,8 @@ class Bot(object):
 
         try:
             user_id = slack_event["event"]["user"]
-            channel = slack_event["event"]["channel"]
-            start_onboarding(slack.WebClient(os.environ.get('token')), user_id, channel)
+            channel = slack_event["event"]["team_id"]
+            start_onboarding(slack.WebClient(os.environ.get('token')), channel, channel)
         except:
             print('exception OM')
             pass
