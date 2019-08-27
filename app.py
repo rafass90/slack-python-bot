@@ -42,6 +42,8 @@ def hears():
     pyBot.close()
     if slack_event['event']['type'] == 'message':
         print('event event', slack_event['event'])
+        if slack_event['event']['bot_id']:
+            return ''
         if slack_event['event']['user'] == 'UML8H54MD':
             return ''
     pyBot.start_onboarding(slack_event)
