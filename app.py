@@ -21,18 +21,6 @@ app = Flask(__name__)
 logger = logging.getLogger('gmppostbot')
 
 
-def _event_handler(event_type, slack_event):
-    team_id = slack_event["team_id"]
-    print(event_type)
-    print('slack_event', slack_event)
-
-    try:
-        self.onboarding_message(slack_event)
-    except:
-        pass
-    return make_response(event_type, 200, {"X-Slack-No-Retry": 1})
-
-
 @app.route("/install", methods=["GET"])
 def pre_install():
     print("INSTALL")
@@ -46,28 +34,13 @@ def pre_install():
     return render_template("install.html", client_id=client_id, scope=scope)
 
 
-@app.route("/thanks", methods=["GET", "POST"])
-def thanks():
-    print("THANKS")
-    """
-    This route is called by Slack after the user installs our app. It will
-    exchange the temporary authorization code Slack sends for an OAuth token
-    which we'll save on the bot object to use later.
-    To let the user know what's happened it will also render a thank you page.
-    """
-    # Let's grab that temporary authorization code Slack's sent us from
-    # the request's parameters.
-    code_arg = request.args.get('code')
-    # The bot's auth method to handles exchanging the code for an OAuth token
-    pyBot.auth(code_arg)
-    return render_template("thanks.html")
-
-
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
     slack_event = request.get_json()
     print('listening', slack_event)
-    return
+
+    pyBot.close()
+
     pyBot.start_onboarding(slack_event)
 
     # If our bot hears things that are not events we've subscribed to,

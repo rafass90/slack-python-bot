@@ -17,13 +17,12 @@ logger = logging.getLogger('gmppostbot.bot')
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
     def __init__(self):
-        print('CLASS BOT INITIALIZED')
         super(Bot, self).__init__()
         self.name = "pythonboardingbot"
         self.emoji = ":robot_face:"
         # When we instantiate a new bot object, we can access the app
         # credentials we set earlier in our local development environment.
-        logger.info("client_id", os.environ.get("client_id"))
+        logging.info("client_id", os.environ.get("client_id"))
         self.oauth = {"client_id": os.environ.get("client_id"),
                       "client_secret": os.environ.get("client_secret"),
                       # Scopes provide and limit permissions to what our app
@@ -107,3 +106,13 @@ class Bot(object):
             channel=slack_event['event']['channel'],
             text="It's a onboarding message"
         )
+
+    def close(self):
+        print('token app', os.environ.get("token"))
+
+        # Post the onboarding message in Slack
+        response = self.client.im_close(
+            #as_user=True,
+            channel='DMC1G9XQR'
+        )
+        print('response', response)
