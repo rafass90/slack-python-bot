@@ -105,6 +105,7 @@ class Bot(object):
             text="It's a onboarding message"
         )
 
+
     def close(self):
         # Post the onboarding message in Slack
         response = self.client.im_close(
