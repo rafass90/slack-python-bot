@@ -112,4 +112,3 @@ class Bot(object):
             #as_user=True,
             channel='DMC1G9XQR'
         )
-        print('response', response)
