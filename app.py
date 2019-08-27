@@ -40,8 +40,10 @@ def hears():
     print('listening', slack_event['event']['type'])
 
     pyBot.close()
-    if slack_event['event']['type'] == 'message' and slack_event['event']['user'] == 'UML8H54MD':
-        return ''
+    if slack_event['event']['type'] == 'message':
+        print(slack_event)
+        if slack_event['event']['user'] == 'UML8H54MD':
+            return ''
     pyBot.start_onboarding(slack_event)
 
     # If our bot hears things that are not events we've subscribed to,
