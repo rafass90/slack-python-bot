@@ -77,7 +77,6 @@ class Bot(object):
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-   
     def direct_message(self, slack_event):
         client = slack.WebClient(os.environ.get('token'))
 
@@ -101,7 +100,7 @@ class Bot(object):
     def start_onboarding(self, slack_event):
         print('token app', os.environ.get("token"))
         print(slack_event)
-        return ''
+
         # Post the onboarding message in Slack
         response = self.client.chat_postMessage(
             #as_user=True,
