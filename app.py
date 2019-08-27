@@ -30,7 +30,6 @@ def _event_handler(event_type, slack_event):
         self.onboarding_message(slack_event)
     except:
         pass
-
     return make_response(event_type, 200, {"X-Slack-No-Retry": 1})
 
 
