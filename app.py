@@ -68,7 +68,7 @@ def thanks():
 def hears():
     slack_event = request.get_json()
     print('listening', slack_event)
-
+    return
     pyBot.start_onboarding(slack_event)
 
     # If our bot hears things that are not events we've subscribed to,
