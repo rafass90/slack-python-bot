@@ -37,10 +37,11 @@ def pre_install():
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
     slack_event = request.get_json()
-    print('listening', slack_event)
+    print('listening', slack_event['event']['type'])
 
     pyBot.close()
-    return ''
+    if slack_event['event']['user'] == 'UML8H54MD':
+        return ''
     pyBot.start_onboarding(slack_event)
 
     # If our bot hears things that are not events we've subscribed to,
