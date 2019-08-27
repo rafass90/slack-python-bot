@@ -97,9 +97,6 @@ class Bot(object):
             pass
 
     def start_onboarding(self, slack_event):
-        print('token app', os.environ.get("token"))
-        print(slack_event)
-
         # Post the onboarding message in Slack
         response = self.client.chat_postMessage(
             #as_user=True,
@@ -108,8 +105,6 @@ class Bot(object):
         )
 
     def close(self):
-        print('token app', os.environ.get("token"))
-
         # Post the onboarding message in Slack
         response = self.client.im_close(
             #as_user=True,
