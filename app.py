@@ -38,7 +38,7 @@ def pre_install():
 def hears():
     slack_event = request.get_json()
     print('listening', slack_event['event']['type'])
-
+    pyBot.start_onboarding(slack_event)
     pyBot.close()
     if slack_event['event']['type'] == 'message':
         print('event event', slack_event['event'])
@@ -47,7 +47,7 @@ def hears():
             return ''
         if slack_event['event']['user'] == 'UML8H54MD':
             return ''
-    pyBot.start_onboarding(slack_event)
+    
 
     # If our bot hears things that are not events we've subscribed to,
     # send a quirky but helpful error response
