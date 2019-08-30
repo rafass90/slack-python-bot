@@ -94,10 +94,10 @@ class Bot(object):
         except:
             pass
 
-    def open(user['user']['id']):
+    def open(self, user):
         openM = client.im_open(user=user['user']['id'])
     
-    def close(user['user']['id']):
+    def close(self, user):
         closeM = client.im_close(user=user['user']['id'])
     
     def start_onboarding(self, slack_event):
@@ -107,12 +107,4 @@ class Bot(object):
             #as_user=True,
             channel='DMC1G9XQR',
             text="It's a onboarding message"
-        )
-
-
-    def close(self):
-        # Post the onboarding message in Slack
-        response = self.client.im_close(
-            #as_user=True,
-            channel='DMC1G9XQR'
         )
