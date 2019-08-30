@@ -80,10 +80,9 @@ class Bot(object):
         client = slack.WebClient(os.environ.get('token'))
 
         user_id = slack_event["event"]["user"]
-        open(openM = client.im_open(user=user['user']['id']))
+        self.open(client, user_id)
         
         if slack_event['event']['text'] == 'closechat':
-            client.im_close(channel='DMC1G9XQR')
             return
         #print(user)
         try:
@@ -94,10 +93,10 @@ class Bot(object):
         except:
             pass
 
-    def open(self, user):
+    def open(self, client, user):
         openM = client.im_open(user=user['user']['id'])
     
-    def close(self, user):
+    def close(self, client, user):
         closeM = client.im_close(user=user['user']['id'])
     
     def start_onboarding(self, slack_event):
