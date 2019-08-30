@@ -8,6 +8,7 @@ import logging
 import slack
 import ssl as ssl_lib
 import certifi
+
 import bot
 import os
 import logging
@@ -36,10 +37,12 @@ def pre_install():
 def hears():
     slack_event = request.get_json()
     print('listening', slack_event['event'])
-    #pyBot.start_onboarding(slack_event)
 
-    # If our bot hears things that are not events we've subscribed to,
-    # send a quirky but helpful error response
+    if "challenge" in slack_event:
+        return make_response(slack_event["challenge"], 200, {"content_type":
+                                                             "application/json"
+                                                             })
+
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
 
