@@ -8,8 +8,6 @@ import logging
 import slack
 import ssl as ssl_lib
 import certifi
-
-
 import bot
 import os
 import logging

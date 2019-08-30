@@ -80,9 +80,7 @@ class Bot(object):
         client = slack.WebClient(os.environ.get('token'))
 
         user_id = slack_event["event"]["user"]
-        user = client.users_lookupByEmail(email='rafael9s9@hotmail.com')
-        print(user['user']['id'])
-        openM = client.im_open(user=user['user']['id'])
+        open(openM = client.im_open(user=user['user']['id']))
         
         if slack_event['event']['text'] == 'closechat':
             client.im_close(channel='DMC1G9XQR')
@@ -96,6 +94,12 @@ class Bot(object):
         except:
             pass
 
+    def open(user['user']['id']):
+        openM = client.im_open(user=user['user']['id'])
+    
+    def close(user['user']['id']):
+        closeM = client.im_close(user=user['user']['id'])
+    
     def start_onboarding(self, slack_event):
         # Post the onboarding message in Slack
 
